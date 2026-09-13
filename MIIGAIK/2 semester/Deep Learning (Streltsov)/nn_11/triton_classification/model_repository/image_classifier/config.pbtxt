@@ -1,0 +1,36 @@
+name: "image_classifier"
+platform: "onnxruntime_onnx"
+max_batch_size: 32
+
+input [
+  {
+    name: "input"
+    data_type: TYPE_FP32
+    dims: [ 32, 32, 3 ]
+  }
+]
+
+output [
+  {
+    name: "Identity:0"
+    data_type: TYPE_FP32
+    dims: [ 5 ]
+  }
+]
+
+dynamic_batching {
+  preferred_batch_size: [ 8, 16, 32 ]
+  max_queue_delay_microseconds: 200000
+}
+
+instance_group [
+  {
+    count: 1
+    kind: KIND_CPU
+  }
+]
+
+parameters: {
+  key: "default_model_filename"
+  value: { string_value: "model.onnx" }
+}

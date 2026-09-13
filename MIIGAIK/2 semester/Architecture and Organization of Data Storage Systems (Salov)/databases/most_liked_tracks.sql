@@ -1,0 +1,1 @@
+select track_id, count(*) from liked_tracks,  group by track_id order by count(*) limit 10

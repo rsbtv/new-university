@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HyenaPixel Inference UI</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: rgba(255,255,255,.88);
+      --stroke: rgba(20,30,45,.10);
+      --text: #1c2533;
+      --muted: #6a7483;
+      --accent: #3b82f6;
+      --accent2: #22c55e;
+      --shadow: 0 18px 50px rgba(31,41,55,.10);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, #eaf2ff 0%, transparent 32%),
+        radial-gradient(circle at top right, #eefaf1 0%, transparent 28%),
+        var(--bg);
+      color: var(--text);
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 24px 28px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: .2px;
+    }
+
+    .badge {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #eaf2ff;
+      color: #2756c4;
+      font-size: 13px;
+      font-weight: 700;
+      border: 1px solid #d6e3ff;
+    }
+
+    main {
+      flex: 1;
+      padding: 12px 24px 24px;
+    }
+
+    .inference-page {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 12px 10px 22px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: flex-end;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .topbar h1 {
+      margin: 0 0 8px;
+      font-size: 38px;
+      line-height: 1.05;
+    }
+
+    .topbar p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 760px;
+      line-height: 1.5;
+    }
+
+    .status-pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #eef6ff;
+      border: 1px solid #d9e7ff;
+      color: #2456c8;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--stroke);
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(20,30,45,.05);
+      padding: 20px;
+    }
+
+    .cardTitle {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .dropzone {
+      min-height: 420px;
+      border: 1px dashed #cfd9ea;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #fbfdff, #f5f9ff);
+      overflow: hidden;
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+
+    .dropzone.dragover {
+      border-color: #3b82f6;
+      background: #eef6ff;
+    }
+
+    .dropzoneInner {
+      text-align: center;
+      padding: 24px;
+      max-width: 420px;
+    }
+
+    .dropzone .icon {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    .dropTitle {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .dropText {
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .btnRow {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 14px;
+      padding: 13px 16px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--accent), #2563eb);
+      color: #fff;
+      box-shadow: 0 12px 24px rgba(59,130,246,.25);
+    }
+
+    .btn.ghost {
+      background: #edf2ff;
+      color: #2446a5;
+      border: 1px solid #d7e2ff;
+    }
+
+    .dropzone img,
+    .resultBox img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: none;
+      background: #fff;
+    }
+
+    .progressBlock {
+      padding: 16px;
+      border-radius: 18px;
+      background: #f8fbff;
+      border: 1px solid #e3ebf8;
+    }
+
+    .progressTop {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .bar {
+      width: 100%;
+      height: 14px;
+      background: #e8eef7;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: inherit;
+      transition: width .12s linear;
+    }
+
+    .status {
+      margin-top: 10px;
+      font-size: 14px;
+      color: var(--muted);
+      min-height: 20px;
+    }
+
+    .metrics {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .metric {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: #fafcff;
+      border: 1px solid #edf1f7;
+      font-size: 14px;
+    }
+
+    .metric span {
+      color: var(--muted);
+    }
+
+    .metric strong {
+      color: var(--text);
+    }
+
+    .resultCard .resultBox {
+      min-height: 420px;
+      background: linear-gradient(180deg, #fbfdff, #f3f7fc);
+      border: 1px solid #e2eaf5;
+      border-radius: 20px;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .resultHint {
+      color: #7b8796;
+      text-align: center;
+      padding: 22px;
+      max-width: 320px;
+    }
+
+    @media (max-width: 1100px) {
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .topbar h1 {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">HyenaPixel</div>
+      <div class="badge">Inference Prototype</div>
+    </header>
+
+    <main>
+      <section class="inference-page">
+        <div class="topbar">
+          <div>
+            <div class="eyebrow">Инференс</div>
+            <h1>Обработка сцены и отображение результата</h1>
+            <p>Загрузите изображение, запустите псевдо-инференс и получите результат из заданного пути.</p>
+          </div>
+          <div class="status-pill" id="engineState">Готово к запуску</div>
+        </div>
+
+        <div class="workspace">
+          <div class="card">
+            <div class="cardTitle">Входное изображение</div>
+            <div class="dropzone" id="dropzone">
+              <div class="dropzoneInner">
+                <div class="icon">🖼️</div>
+                <div class="dropTitle">Перетащите файл сюда или выберите вручную</div>
+                <div class="dropText">Поддерживаются обычные изображения. После выбора начнётся имитация инференса.</div>
+                <div class="btnRow">
+                  <button class="btn primary" id="uploadBtn">Выбрать изображение</button>
+                  <button class="btn ghost" id="resetBtn">Сбросить</button>
+                </div>
+                <input type="file" id="fileInput" accept="image/*" hidden />
+              </div>
+              <img id="previewImage" alt="Предпросмотр" />
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="cardTitle">Ход обработки</div>
+            <div class="progressBlock">
+              <div class="progressTop">
+                <span id="progressLabel">Ожидание файла</span>
+                <span id="progressValue">0%</span>
+              </div>
+              <div class="bar"><div class="fill" id="fill"></div></div>
+              <div class="status" id="status">Выберите изображение для запуска инференса.</div>
+            </div>
+
+            <div class="metrics">
+              <div class="metric"><span>Модель</span><strong>HyenaSegm_v1</strong></div>
+              <div class="metric"><span>Режим</span><strong>API Gateway</strong></div>
+              <div class="metric"><span>Время</span><strong id="timeLabel">0.0 s</strong></div>
+            </div>
+          </div>
+
+          <div class="card resultCard">
+            <div class="cardTitle">Результат инференса</div>
+            <div class="resultBox">
+              <div class="resultHint" id="resultHint">Здесь появится итоговое изображение.</div>
+              <img id="resultImage" alt="Результат инференса" />
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const RESULT_IMAGE_PATH = "2.png";
+
+    const uploadBtn = document.getElementById("uploadBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const fileInput = document.getElementById("fileInput");
+    const fill = document.getElementById("fill");
+    const progressLabel = document.getElementById("progressLabel");
+    const progressValue = document.getElementById("progressValue");
+    const status = document.getElementById("status");
+    const previewImage = document.getElementById("previewImage");
+    const resultImage = document.getElementById("resultImage");
+    const resultHint = document.getElementById("resultHint");
+    const engineState = document.getElementById("engineState");
+    const timeLabel = document.getElementById("timeLabel");
+    const dropzone = document.getElementById("dropzone");
+
+    let timer = null;
+    let t0 = 0;
+
+    function setReady() {
+      engineState.textContent = "Готово к запуску";
+      progressLabel.textContent = "Ожидание файла";
+      progressValue.textContent = "0%";
+      status.textContent = "Выберите изображение для запуска инференса.";
+      timeLabel.textContent = "0.0 s";
+      fill.style.width = "0%";
+      resultImage.style.display = "none";
+      resultHint.style.display = "block";
+    }
+
+    function start() {
+      clearInterval(timer);
+      let p = 0;
+      t0 = Date.now();
+      engineState.textContent = "Инференс запущен";
+      progressLabel.textContent = "Выполнение...";
+      status.textContent = "Изображение загружено. Выполняется псевдо-инференс...";
+      resultImage.style.display = "none";
+      resultHint.style.display = "block";
+
+      timer = setInterval(() => {
+        const e = Date.now() - t0;
+        p = Math.min(100, Math.round((e / 1000) * 100));
+        fill.style.width = p + "%";
+        progressValue.textContent = p + "%";
+        timeLabel.textContent = (e / 1000).toFixed(1) + " s";
+        status.textContent = p < 100 ? `Обработка... ${p}%` : "Инференс завершён. Показан итоговый результат.";
+
+        if (p >= 100) {
+          clearInterval(timer);
+          engineState.textContent = "Готово";
+          resultImage.src = RESULT_IMAGE_PATH;
+          resultImage.style.display = "block";
+          resultHint.style.display = "none";
+        }
+      }, 30);
+    }
+
+    uploadBtn.onclick = () => fileInput.click();
+
+    resetBtn.onclick = () => {
+      clearInterval(timer);
+      fileInput.value = "";
+      previewImage.src = "";
+      previewImage.style.display = "none";
+      setReady();
+    };
+
+    fileInput.onchange = () => {
+      const f = fileInput.files && fileInput.files[0];
+      if (!f) return;
+      previewImage.src = URL.createObjectURL(f);
+      previewImage.style.display = "block";
+      start();
+    };
+
+    ["dragenter", "dragover"].forEach(ev =>
+      dropzone.addEventListener(ev, e => {
+        e.preventDefault();
+        dropzone.classList.add("dragover");
+      })
+    );
+
+    ["dragleave", "drop"].forEach(ev =>
+      dropzone.addEventListener(ev, e => {
+        e.preventDefault();
+        dropzone.classList.remove("dragover");
+      })
+    );
+
+    dropzone.addEventListener("drop", e => {
+      const f = e.dataTransfer.files && e.dataTransfer.files[0];
+      if (!f || !f.type.startsWith("image/")) return;
+      fileInput.files = e.dataTransfer.files;
+      previewImage.src = URL.createObjectURL(f);
+      previewImage.style.display = "block";
+      start();
+    });
+
+    setReady();
+  </script>
+</body>
+</html>

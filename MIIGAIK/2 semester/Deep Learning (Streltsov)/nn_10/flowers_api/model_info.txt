@@ -1,0 +1,10 @@
+ЛУЧШАЯ МОДЕЛЬ: 4
+INPUT SHAPE: (None, 32, 32, 3)
+IMG SIZE: (32, 32)
+FLATTEN: False
+PREPROCESSING: standard
+
+F1-мера: 0.9128
+Accuracy: 0.9010
+
+КЛАССЫ: ['daisy', 'dandelion', 'roses', 'sunflowers', 'tulips']

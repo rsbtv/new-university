@@ -1,0 +1,70 @@
+version: "3.9"
+
+services:
+  triton:
+    image: nvcr.io/nvidia/tritonserver:24.08-py3
+    container_name: triton_classification-triton-1
+    command:
+      [
+        "tritonserver",
+        "--model-repository=/models",
+        "--allow-http=true",
+        "--http-port=8000",
+        "--metrics-port=8002"
+      ]
+    volumes:
+      - ./model_repository:/models
+    ports:
+      - "8000:8000"  # HTTP API Triton
+      - "8001:8001"  # gRPC (если понадобится)
+      - "8002:8002"  # Prometheus metrics
+    # если будут проблемы из-за отсутствия curl внутри контейнера — healthcheck можно закомментировать
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/v2/health/ready"]
+      interval: 20s
+      timeout: 10s
+      retries: 10
+
+  api:
+    build: ./api
+    container_name: triton_classification-api-1
+    environment:
+      TRITON_URL: http://triton:8000
+      MODEL_NAME: image_classifier
+      MODEL_VERSION: "1"
+      INPUT_NAME: input
+      OUTPUT_NAME: "Identity:0"
+      IMAGE_SIZE: "32"
+    depends_on:
+      triton:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    container_name: triton_classification-prometheus-1
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    depends_on:
+      - triton
+      - api
+
+  grafana:
+    image: grafana/grafana:11.2.0
+    container_name: triton_classification-grafana-1
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus

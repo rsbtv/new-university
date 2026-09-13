@@ -1,0 +1,91 @@
+{
+  "title": "Дневные стационары города Москвы",
+  "description": "Набор данных о медицинских учреждениях, оказывающих услуги дневного стационара",
+  "fields": [
+    {
+      "name": "Категория",
+      "type": "string",
+      "description": "Категория медицинского учреждения",
+      "required": true
+    },
+    {
+      "name": "Полное_наименование",
+      "type": "string",
+      "description": "Полное официальное наименование организации",
+      "required": true,
+      "maxLength": 500
+    },
+    {
+      "name": "Краткое_название",
+      "type": "string",
+      "description": "Сокращённое наименование организации",
+      "required": true,
+      "maxLength": 200
+    },
+    {
+      "name": "Адм_округ",
+      "type": "string",
+      "description": "Административный округ Москвы",
+      "required": true
+    },
+    {
+      "name": "Район",
+      "type": "string",
+      "description": "Район города Москвы",
+      "required": true
+    },
+    {
+      "name": "Почтовый_индекс",
+      "type": "string",
+      "description": "Почтовый индекс",
+      "required": true,
+      "pattern": "^[0-9]{6}$"
+    },
+    {
+      "name": "Адрес",
+      "type": "string",
+      "description": "Полный адрес расположения объекта",
+      "required": true
+    },
+    {
+      "name": "Общий_телефон",
+      "type": "string",
+      "description": "Общий контактный телефон",
+      "required": false
+    },
+    {
+      "name": "Email",
+      "type": "string",
+      "description": "Адрес электронной почты",
+      "required": false,
+      "format": "email"
+    },
+    {
+      "name": "Режим_работы",
+      "type": "string",
+      "description": "Режим работы по дням недели",
+      "required": true
+    },
+    {
+      "name": "ИНН",
+      "type": "string",
+      "description": "Идентификационный номер налогоплательщика",
+      "required": true,
+      "pattern": "^[0-9]{10,12}$"
+    },
+    {
+      "name": "ОГРН",
+      "type": "string",
+      "description": "Основной государственный регистрационный номер",
+      "required": true,
+      "pattern": "^[0-9]{13,15}$"
+    },
+    {
+      "name": "Возрастное_ограничение",
+      "type": "string",
+      "description": "Возрастная категория пациентов",
+      "required": true,
+      "enum": ["взрослое", "детское"]
+    }
+  ]
+}
