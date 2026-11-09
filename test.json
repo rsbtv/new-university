@@ -1,0 +1,132 @@
+{
+    "titleEn": "Program",
+    "titleRu": "Программа",
+    "connections": [
+        {
+            "index": 0,
+            "nameEn": "input module",
+            "nameRu": "модуль ввода",
+            "ip": "192.168.2.1",
+            "port": 502,
+            "slaveId": 1,
+            "registerType": "holding",
+            "values": [
+                {
+                    "index": 0,
+
+                    "nameEn": "device 1 isOff",
+                    "nameRu": "девайс 1 выключен",
+
+                    "containerNameEn": "container 1",
+                    "containerNameRu": "ящик 1",
+
+                    "type": "bool",
+                    "register": 1,
+                    "bit": 0
+                },
+                {
+                    "index": 1,
+
+                    "nameEn": "device 1 isOn",
+                    "nameRu": "девайс 1 включен",
+
+                    "containerNameEn": "container 1",
+                    "containerNameRu": "ящик 1",
+
+                    "type": "bool",
+                    "register": 1,
+                    "bit": 1
+                },
+                {
+                    "index": 2,
+
+                    "nameEn": "device 2 isOff",
+                    "nameRu": "девайс 2 выключен",
+
+                    "containerNameEn": "container 1",
+                    "containerNameRu": "ящик 1",
+
+                    "type": "bool",
+                    "register": 1,
+                    "bit": 2
+                },
+                {
+                    "index": 3,
+
+                    "nameEn": "device 2 isOn",
+                    "nameRu": "девайс 2 включен",
+
+                    "containerNameEn": "container 1",
+                    "containerNameRu": "ящик 1",
+
+                    "type": "bool",
+                    "register": 1,
+                    "bit": 3
+                }
+            ]
+        },
+        {
+            "index": 1,
+            "nameEn": "output module",
+            "nameRu": "модуль вывода",
+            "ip": "192.168.2.2",
+            "port": 502,
+            "slaveId": 1,
+            "registerType": "holding",
+            "values": [
+                {
+                    "index": 0,
+
+                    "nameEn": "device 1 turnOff",
+                    "nameRu": "девайс 1 выключить",
+
+                    "containerNameEn": "container 1",
+                    "containerNameRu": "ящик 1",
+
+                    "type": "bool",
+                    "register": 1,
+                    "bit": 0
+                },
+                {
+                    "index": 1,
+
+                    "nameEn": "device 1 turnOn",
+                    "nameRu": "девайс 1 включить",
+
+                    "containerNameEn": "container 1",
+                    "containerNameRu": "ящик 1",
+
+                    "type": "bool",
+                    "register": 1,
+                    "bit": 1
+                },
+                {
+                    "index": 2,
+
+                    "nameEn": "device 2 turnOff",
+                    "nameRu": "девайс 2 выключить",
+
+                    "containerNameEn": "container 2",
+                    "containerNameRu": "ящик 1",
+
+                    "type": "bool",
+                    "register": 1,
+                    "bit": 2
+                },
+                {
+                    "index": 3,
+
+                    "nameEn": "device 2 turnOn",
+                    "nameRu": "девайс 2 включить",
+
+                    "containerNameEn": "container 1",
+                    "containerNameRu": "ящик 1",
+
+                    "type": "bool",
+                    "register": 1,
+                    "bit": 3
+                }
+            ]
+        }
+    ]
+}
