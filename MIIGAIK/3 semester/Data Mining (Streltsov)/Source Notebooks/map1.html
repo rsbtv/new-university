@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_39e26c2dc49b32c19edf8b8dc447a5c2 {
+                    position: relative;
+                    width: 100.0vw;
+                    height: 100.0vh;
+
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>/*
+ * Glyphicons Halflings -- the icon font used by folium's default Awesome Markers
+ * (Icon(prefix="glyphicon")). Extracted from Bootstrap 3's glyphicon rules only.
+ *
+ * folium previously loaded netdna's bootstrap-glyphicons.css, which despite its
+ * name ships a full Bootstrap-3 base stylesheet (normalize reset + global `body`
+ * rules) that leaked onto the host page (GH-1820). This file provides just the
+ * @font-face and .glyphicon/.glyphicon-* rules needed for the markers, with no
+ * page-wide side effects. Font files are served from jsDelivr.
+ */
+@font-face{font-family:'Glyphicons Halflings';src:url('https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/fonts/glyphicons-halflings-regular.eot');src:url('https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),url('https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/fonts/glyphicons-halflings-regular.woff') format('woff'),url('https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/fonts/glyphicons-halflings-regular.ttf') format('truetype'),url('https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');}.glyphicon{position:relative;top:1px;display:inline-block;font-family:'Glyphicons Halflings';font-style:normal;font-weight:normal;line-height:1;-webkit-font-smoothing:antialiased;}
+.glyphicon-asterisk:before{content:"\2a";}
+.glyphicon-plus:before{content:"\2b";}
+.glyphicon-euro:before{content:"\20ac";}
+.glyphicon-minus:before{content:"\2212";}
+.glyphicon-cloud:before{content:"\2601";}
+.glyphicon-envelope:before{content:"\2709";}
+.glyphicon-pencil:before{content:"\270f";}
+.glyphicon-glass:before{content:"\e001";}
+.glyphicon-music:before{content:"\e002";}
+.glyphicon-search:before{content:"\e003";}
+.glyphicon-heart:before{content:"\e005";}
+.glyphicon-star:before{content:"\e006";}
+.glyphicon-star-empty:before{content:"\e007";}
+.glyphicon-user:before{content:"\e008";}
+.glyphicon-film:before{content:"\e009";}
+.glyphicon-th-large:before{content:"\e010";}
+.glyphicon-th:before{content:"\e011";}
+.glyphicon-th-list:before{content:"\e012";}
+.glyphicon-ok:before{content:"\e013";}
+.glyphicon-remove:before{content:"\e014";}
+.glyphicon-zoom-in:before{content:"\e015";}
+.glyphicon-zoom-out:before{content:"\e016";}
+.glyphicon-off:before{content:"\e017";}
+.glyphicon-signal:before{content:"\e018";}
+.glyphicon-cog:before{content:"\e019";}
+.glyphicon-trash:before{content:"\e020";}
+.glyphicon-home:before{content:"\e021";}
+.glyphicon-file:before{content:"\e022";}
+.glyphicon-time:before{content:"\e023";}
+.glyphicon-road:before{content:"\e024";}
+.glyphicon-download-alt:before{content:"\e025";}
+.glyphicon-download:before{content:"\e026";}
+.glyphicon-upload:before{content:"\e027";}
+.glyphicon-inbox:before{content:"\e028";}
+.glyphicon-play-circle:before{content:"\e029";}
+.glyphicon-repeat:before{content:"\e030";}
+.glyphicon-refresh:before{content:"\e031";}
+.glyphicon-list-alt:before{content:"\e032";}
+.glyphicon-flag:before{content:"\e034";}
+.glyphicon-headphones:before{content:"\e035";}
+.glyphicon-volume-off:before{content:"\e036";}
+.glyphicon-volume-down:before{content:"\e037";}
+.glyphicon-volume-up:before{content:"\e038";}
+.glyphicon-qrcode:before{content:"\e039";}
+.glyphicon-barcode:before{content:"\e040";}
+.glyphicon-tag:before{content:"\e041";}
+.glyphicon-tags:before{content:"\e042";}
+.glyphicon-book:before{content:"\e043";}
+.glyphicon-print:before{content:"\e045";}
+.glyphicon-font:before{content:"\e047";}
+.glyphicon-bold:before{content:"\e048";}
+.glyphicon-italic:before{content:"\e049";}
+.glyphicon-text-height:before{content:"\e050";}
+.glyphicon-text-width:before{content:"\e051";}
+.glyphicon-align-left:before{content:"\e052";}
+.glyphicon-align-center:before{content:"\e053";}
+.glyphicon-align-right:before{content:"\e054";}
+.glyphicon-align-justify:before{content:"\e055";}
+.glyphicon-list:before{content:"\e056";}
+.glyphicon-indent-left:before{content:"\e057";}
+.glyphicon-indent-right:before{content:"\e058";}
+.glyphicon-facetime-video:before{content:"\e059";}
+.glyphicon-picture:before{content:"\e060";}
+.glyphicon-map-marker:before{content:"\e062";}
+.glyphicon-adjust:before{content:"\e063";}
+.glyphicon-tint:before{content:"\e064";}
+.glyphicon-edit:before{content:"\e065";}
+.glyphicon-share:before{content:"\e066";}
+.glyphicon-check:before{content:"\e067";}
+.glyphicon-move:before{content:"\e068";}
+.glyphicon-step-backward:before{content:"\e069";}
+.glyphicon-fast-backward:before{content:"\e070";}
+.glyphicon-backward:before{content:"\e071";}
+.glyphicon-play:before{content:"\e072";}
+.glyphicon-pause:before{content:"\e073";}
+.glyphicon-stop:before{content:"\e074";}
+.glyphicon-forward:before{content:"\e075";}
+.glyphicon-fast-forward:before{content:"\e076";}
+.glyphicon-step-forward:before{content:"\e077";}
+.glyphicon-eject:before{content:"\e078";}
+.glyphicon-chevron-left:before{content:"\e079";}
+.glyphicon-chevron-right:before{content:"\e080";}
+.glyphicon-plus-sign:before{content:"\e081";}
+.glyphicon-minus-sign:before{content:"\e082";}
+.glyphicon-remove-sign:before{content:"\e083";}
+.glyphicon-ok-sign:before{content:"\e084";}
+.glyphicon-question-sign:before{content:"\e085";}
+.glyphicon-info-sign:before{content:"\e086";}
+.glyphicon-screenshot:before{content:"\e087";}
+.glyphicon-remove-circle:before{content:"\e088";}
+.glyphicon-ok-circle:before{content:"\e089";}
+.glyphicon-ban-circle:before{content:"\e090";}
+.glyphicon-arrow-left:before{content:"\e091";}
+.glyphicon-arrow-right:before{content:"\e092";}
+.glyphicon-arrow-up:before{content:"\e093";}
+.glyphicon-arrow-down:before{content:"\e094";}
+.glyphicon-share-alt:before{content:"\e095";}
+.glyphicon-resize-full:before{content:"\e096";}
+.glyphicon-resize-small:before{content:"\e097";}
+.glyphicon-exclamation-sign:before{content:"\e101";}
+.glyphicon-gift:before{content:"\e102";}
+.glyphicon-leaf:before{content:"\e103";}
+.glyphicon-eye-open:before{content:"\e105";}
+.glyphicon-eye-close:before{content:"\e106";}
+.glyphicon-warning-sign:before{content:"\e107";}
+.glyphicon-plane:before{content:"\e108";}
+.glyphicon-random:before{content:"\e110";}
+.glyphicon-comment:before{content:"\e111";}
+.glyphicon-magnet:before{content:"\e112";}
+.glyphicon-chevron-up:before{content:"\e113";}
+.glyphicon-chevron-down:before{content:"\e114";}
+.glyphicon-retweet:before{content:"\e115";}
+.glyphicon-shopping-cart:before{content:"\e116";}
+.glyphicon-folder-close:before{content:"\e117";}
+.glyphicon-folder-open:before{content:"\e118";}
+.glyphicon-resize-vertical:before{content:"\e119";}
+.glyphicon-resize-horizontal:before{content:"\e120";}
+.glyphicon-hdd:before{content:"\e121";}
+.glyphicon-bullhorn:before{content:"\e122";}
+.glyphicon-certificate:before{content:"\e124";}
+.glyphicon-thumbs-up:before{content:"\e125";}
+.glyphicon-thumbs-down:before{content:"\e126";}
+.glyphicon-hand-right:before{content:"\e127";}
+.glyphicon-hand-left:before{content:"\e128";}
+.glyphicon-hand-up:before{content:"\e129";}
+.glyphicon-hand-down:before{content:"\e130";}
+.glyphicon-circle-arrow-right:before{content:"\e131";}
+.glyphicon-circle-arrow-left:before{content:"\e132";}
+.glyphicon-circle-arrow-up:before{content:"\e133";}
+.glyphicon-circle-arrow-down:before{content:"\e134";}
+.glyphicon-globe:before{content:"\e135";}
+.glyphicon-tasks:before{content:"\e137";}
+.glyphicon-filter:before{content:"\e138";}
+.glyphicon-fullscreen:before{content:"\e140";}
+.glyphicon-dashboard:before{content:"\e141";}
+.glyphicon-heart-empty:before{content:"\e143";}
+.glyphicon-link:before{content:"\e144";}
+.glyphicon-phone:before{content:"\e145";}
+.glyphicon-usd:before{content:"\e148";}
+.glyphicon-gbp:before{content:"\e149";}
+.glyphicon-sort:before{content:"\e150";}
+.glyphicon-sort-by-alphabet:before{content:"\e151";}
+.glyphicon-sort-by-alphabet-alt:before{content:"\e152";}
+.glyphicon-sort-by-order:before{content:"\e153";}
+.glyphicon-sort-by-order-alt:before{content:"\e154";}
+.glyphicon-sort-by-attributes:before{content:"\e155";}
+.glyphicon-sort-by-attributes-alt:before{content:"\e156";}
+.glyphicon-unchecked:before{content:"\e157";}
+.glyphicon-expand:before{content:"\e158";}
+.glyphicon-collapse-down:before{content:"\e159";}
+.glyphicon-collapse-up:before{content:"\e160";}
+.glyphicon-log-in:before{content:"\e161";}
+.glyphicon-flash:before{content:"\e162";}
+.glyphicon-log-out:before{content:"\e163";}
+.glyphicon-new-window:before{content:"\e164";}
+.glyphicon-record:before{content:"\e165";}
+.glyphicon-save:before{content:"\e166";}
+.glyphicon-open:before{content:"\e167";}
+.glyphicon-saved:before{content:"\e168";}
+.glyphicon-import:before{content:"\e169";}
+.glyphicon-export:before{content:"\e170";}
+.glyphicon-send:before{content:"\e171";}
+.glyphicon-floppy-disk:before{content:"\e172";}
+.glyphicon-floppy-saved:before{content:"\e173";}
+.glyphicon-floppy-remove:before{content:"\e174";}
+.glyphicon-floppy-save:before{content:"\e175";}
+.glyphicon-floppy-open:before{content:"\e176";}
+.glyphicon-credit-card:before{content:"\e177";}
+.glyphicon-transfer:before{content:"\e178";}
+.glyphicon-cutlery:before{content:"\e179";}
+.glyphicon-header:before{content:"\e180";}
+.glyphicon-compressed:before{content:"\e181";}
+.glyphicon-earphone:before{content:"\e182";}
+.glyphicon-phone-alt:before{content:"\e183";}
+.glyphicon-tower:before{content:"\e184";}
+.glyphicon-stats:before{content:"\e185";}
+.glyphicon-sd-video:before{content:"\e186";}
+.glyphicon-hd-video:before{content:"\e187";}
+.glyphicon-subtitles:before{content:"\e188";}
+.glyphicon-sound-stereo:before{content:"\e189";}
+.glyphicon-sound-dolby:before{content:"\e190";}
+.glyphicon-sound-5-1:before{content:"\e191";}
+.glyphicon-sound-6-1:before{content:"\e192";}
+.glyphicon-sound-7-1:before{content:"\e193";}
+.glyphicon-copyright-mark:before{content:"\e194";}
+.glyphicon-registration-mark:before{content:"\e195";}
+.glyphicon-cloud-download:before{content:"\e197";}
+.glyphicon-cloud-upload:before{content:"\e198";}
+.glyphicon-tree-conifer:before{content:"\e199";}
+.glyphicon-tree-deciduous:before{content:"\e200";}
+.glyphicon-briefcase:before{content:"\1f4bc";}
+.glyphicon-calendar:before{content:"\1f4c5";}
+.glyphicon-pushpin:before{content:"\1f4cc";}
+.glyphicon-paperclip:before{content:"\1f4ce";}
+.glyphicon-camera:before{content:"\1f4f7";}
+.glyphicon-lock:before{content:"\1f512";}
+.glyphicon-bell:before{content:"\1f514";}
+.glyphicon-bookmark:before{content:"\1f516";}
+.glyphicon-fire:before{content:"\1f525";}
+.glyphicon-wrench:before{content:"\1f527";}
+</style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_39e26c2dc49b32c19edf8b8dc447a5c2" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_39e26c2dc49b32c19edf8b8dc447a5c2 = L.map(
+                "map_39e26c2dc49b32c19edf8b8dc447a5c2",
+                {
+                    center: [0.0, 0.0],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 1,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_e3ddb59dd0d9827d24286d847aafe749 = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "Tiles \u0026copy; Esri \u0026mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_e3ddb59dd0d9827d24286d847aafe749.addTo(map_39e26c2dc49b32c19edf8b8dc447a5c2);
+        
+    
+            map_39e26c2dc49b32c19edf8b8dc447a5c2.fitBounds(
+                [[53.135245, 47.730592], [53.151931, 47.770912]],
+                {"padding": [30, 30]}
+            );
+        
+    
+            var circle_marker_7e56680338a998323a462d6bb92acd53 = L.circleMarker(
+                [53.150791, 47.748175],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3d9500ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.0, "stroke": true, "weight": 1.5}
+            ).addTo(map_39e26c2dc49b32c19edf8b8dc447a5c2);
+        
+    
+        var popup_9d747a8f057a4597a256ebdb7bd90c1e = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_d4797b2d7f8d8b7d9247548e65e1e951 = $(`<div id="html_d4797b2d7f8d8b7d9247548e65e1e951" style="width: 100.0%; height: 100.0%;"><b>Мангал house</b><br>ул. Азина, 88А, рабочий посёлок Новоспасское<br>Отзывов в анализе: 25<br>Звёзды авторов / прогноз по текстам: 4.68 / 4.52<br>Рейтинг карточки: 5.0<br>Обе модели против автора: 2 при ожидаемых 1.5 (p = 0.444)</div>`)[0];
+                popup_9d747a8f057a4597a256ebdb7bd90c1e.setContent(html_d4797b2d7f8d8b7d9247548e65e1e951);
+            
+        
+
+        circle_marker_7e56680338a998323a462d6bb92acd53.bindPopup(popup_9d747a8f057a4597a256ebdb7bd90c1e)
+        ;
+
+        
+    
+    
+            circle_marker_7e56680338a998323a462d6bb92acd53.bindTooltip(
+                `<div>
+                     Мангал house
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0fbefd144f2a40907ac12ae87fa823f3 = L.circleMarker(
+                [53.150206, 47.75467],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238c00ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.0, "stroke": true, "weight": 1.5}
+            ).addTo(map_39e26c2dc49b32c19edf8b8dc447a5c2);
+        
+    
+        var popup_62ffd3f55073b0451fb0c251d2b35c03 = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_4bbf3cb076de42f23d71c6b5d2aaada8 = $(`<div id="html_4bbf3cb076de42f23d71c6b5d2aaada8" style="width: 100.0%; height: 100.0%;"><b>Столовая</b><br>Ульяновская область, рабочий посёлок Новоспасское, улица Азина<br>Отзывов в анализе: 25<br>Звёзды авторов / прогноз по текстам: 4.80 / 4.72<br>Рейтинг карточки: 4.7<br>Обе модели против автора: 1 при ожидаемых 0.7 (p = 0.514)</div>`)[0];
+                popup_62ffd3f55073b0451fb0c251d2b35c03.setContent(html_4bbf3cb076de42f23d71c6b5d2aaada8);
+            
+        
+
+        circle_marker_0fbefd144f2a40907ac12ae87fa823f3.bindPopup(popup_62ffd3f55073b0451fb0c251d2b35c03)
+        ;
+
+        
+    
+    
+            circle_marker_0fbefd144f2a40907ac12ae87fa823f3.bindTooltip(
+                `<div>
+                     Столовая
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_bc153648356bc9e4ede370cd4f3d18c2 = L.circleMarker(
+                [53.150852, 47.763522],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238c00ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.0, "stroke": true, "weight": 1.5}
+            ).addTo(map_39e26c2dc49b32c19edf8b8dc447a5c2);
+        
+    
+        var popup_75058d367b7c7545982d2cc23bf44f7c = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_363fd193ae4f1825559d9ac0e4fed0f4 = $(`<div id="html_363fd193ae4f1825559d9ac0e4fed0f4" style="width: 100.0%; height: 100.0%;"><b>Мокка</b><br>ул. Строителей, 26, рабочий посёлок Новоспасское<br>Отзывов в анализе: 25<br>Звёзды авторов / прогноз по текстам: 4.52 / 4.72<br>Рейтинг карточки: 4.6<br>Обе модели против автора: 5 при ожидаемых 3.6 (p = 0.294)</div>`)[0];
+                popup_75058d367b7c7545982d2cc23bf44f7c.setContent(html_363fd193ae4f1825559d9ac0e4fed0f4);
+            
+        
+
+        circle_marker_bc153648356bc9e4ede370cd4f3d18c2.bindPopup(popup_75058d367b7c7545982d2cc23bf44f7c)
+        ;
+
+        
+    
+    
+            circle_marker_bc153648356bc9e4ede370cd4f3d18c2.bindTooltip(
+                `<div>
+                     Мокка
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d3f3a3194f9fa9a44e6bae40592fd653 = L.circleMarker(
+                [53.145344, 47.76037],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4c9a00ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.794733192202055, "stroke": true, "weight": 1.5}
+            ).addTo(map_39e26c2dc49b32c19edf8b8dc447a5c2);
+        
+    
+        var popup_d6cce213df162ef922e4957a66b99549 = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_b54d00345e7190f6c52208e7498c18dd = $(`<div id="html_b54d00345e7190f6c52208e7498c18dd" style="width: 100.0%; height: 100.0%;"><b>Оазис</b><br>ул. Победы, 43, рабочий посёлок Новоспасское<br>Отзывов в анализе: 10<br>Звёзды авторов / прогноз по текстам: 4.50 / 4.40<br>Рейтинг карточки: 3.8<br>Обе модели против автора: 0 при ожидаемых 0.5 (p = 1.000)</div>`)[0];
+                popup_d6cce213df162ef922e4957a66b99549.setContent(html_b54d00345e7190f6c52208e7498c18dd);
+            
+        
+
+        circle_marker_d3f3a3194f9fa9a44e6bae40592fd653.bindPopup(popup_d6cce213df162ef922e4957a66b99549)
+        ;
+
+        
+    
+    
+            circle_marker_d3f3a3194f9fa9a44e6bae40592fd653.bindTooltip(
+                `<div>
+                     Оазис
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_65c51bad10c56ba144dac9d89ec79cf7 = L.circleMarker(
+                [53.150549, 47.762791],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4c9a00ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.794733192202055, "stroke": true, "weight": 1.5}
+            ).addTo(map_39e26c2dc49b32c19edf8b8dc447a5c2);
+        
+    
+        var popup_d2f1d41aa0befbdaee5a6ed58a12a6f7 = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_aba2187d25281bf0c9db137134db96c0 = $(`<div id="html_aba2187d25281bf0c9db137134db96c0" style="width: 100.0%; height: 100.0%;"><b>Севан</b><br>ул. Мичурина, 45, рабочий посёлок Новоспасское<br>Отзывов в анализе: 10<br>Звёзды авторов / прогноз по текстам: 3.80 / 4.40<br>Рейтинг карточки: 3.5<br>Обе модели против автора: 1 при ожидаемых 2.7 (p = 0.935)</div>`)[0];
+                popup_d2f1d41aa0befbdaee5a6ed58a12a6f7.setContent(html_aba2187d25281bf0c9db137134db96c0);
+            
+        
+
+        circle_marker_65c51bad10c56ba144dac9d89ec79cf7.bindPopup(popup_d2f1d41aa0befbdaee5a6ed58a12a6f7)
+        ;
+
+        
+    
+    
+            circle_marker_65c51bad10c56ba144dac9d89ec79cf7.bindTooltip(
+                `<div>
+                     Севан
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e2c365ebbf583e23787e73a42fd694c1 = L.circleMarker(
+                [53.149459, 47.757826],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4c9a00ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.0, "stroke": true, "weight": 1.5}
+            ).addTo(map_39e26c2dc49b32c19edf8b8dc447a5c2);
+        
+    
+        var popup_ded5bf043541aaa1793293495a696897 = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_47d55b512cb1afc0fc5b8223523a0c3d = $(`<div id="html_47d55b512cb1afc0fc5b8223523a0c3d" style="width: 100.0%; height: 100.0%;"><b>Вита Экспресс</b><br>ул. Мичурина, 22, рабочий посёлок Новоспасское<br>Отзывов в анализе: 25<br>Звёзды авторов / прогноз по текстам: 4.56 / 4.40<br>Рейтинг карточки: 4.7<br>Обе модели против автора: 5 при ожидаемых 3.6 (p = 0.292)</div>`)[0];
+                popup_ded5bf043541aaa1793293495a696897.setContent(html_47d55b512cb1afc0fc5b8223523a0c3d);
+            
+        
+
+        circle_marker_e2c365ebbf583e23787e73a42fd694c1.bindPopup(popup_ded5bf043541aaa1793293495a696897)
+        ;
+
+        
+    
+    
+            circle_marker_e2c365ebbf583e23787e73a42fd694c1.bindTooltip(
+                `<div>
+                     Вита Экспресс
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8e98f5750a77d9d940524583db44573c = L.circleMarker(
+                [53.135245, 47.770912],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#66a300ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.794733192202055, "stroke": true, "weight": 1.5}
+            ).addTo(map_39e26c2dc49b32c19edf8b8dc447a5c2);
+        
+    
+        var popup_f2a8500bfce9469929ec2cb9f0fd4458 = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_2b5ab8289928f32c9889eac2c441306a = $(`<div id="html_2b5ab8289928f32c9889eac2c441306a" style="width: 100.0%; height: 100.0%;"><b>Вита Экспресс</b><br>Аэродромная ул., 21, рабочий посёлок Новоспасское<br>Отзывов в анализе: 10<br>Звёзды авторов / прогноз по текстам: 4.60 / 4.20<br>Рейтинг карточки: 5.0<br>Обе модели против автора: 1 при ожидаемых 0.1 (p = 0.118)</div>`)[0];
+                popup_f2a8500bfce9469929ec2cb9f0fd4458.setContent(html_2b5ab8289928f32c9889eac2c441306a);
+            
+        
+
+        circle_marker_8e98f5750a77d9d940524583db44573c.bindPopup(popup_f2a8500bfce9469929ec2cb9f0fd4458)
+        ;
+
+        
+    
+    
+            circle_marker_8e98f5750a77d9d940524583db44573c.bindTooltip(
+                `<div>
+                     Вита Экспресс
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c3e0fd868bbe95465f390ea12a1201b7 = L.circleMarker(
+                [53.145108, 47.730592],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f6d400ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7.48998886412873, "stroke": true, "weight": 1.5}
+            ).addTo(map_39e26c2dc49b32c19edf8b8dc447a5c2);
+        
+    
+        var popup_f5038c3be9125071774f53dd97e2293c = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_f2d837978df27f72799a6373a9cf573d = $(`<div id="html_f2d837978df27f72799a6373a9cf573d" style="width: 100.0%; height: 100.0%;"><b>Аптека</b><br>площадь Семашко, 14, рабочий посёлок Новоспасское<br>Отзывов в анализе: 14<br>Звёзды авторов / прогноз по текстам: 3.29 / 3.07<br>Рейтинг карточки: 4.0<br>Обе модели против автора: 3 при ожидаемых 2.7 (p = 0.503)</div>`)[0];
+                popup_f5038c3be9125071774f53dd97e2293c.setContent(html_f2d837978df27f72799a6373a9cf573d);
+            
+        
+
+        circle_marker_c3e0fd868bbe95465f390ea12a1201b7.bindPopup(popup_f5038c3be9125071774f53dd97e2293c)
+        ;
+
+        
+    
+    
+            circle_marker_c3e0fd868bbe95465f390ea12a1201b7.bindTooltip(
+                `<div>
+                     Аптека
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d175f0c0ca5fc08577e946aa57962a72 = L.circleMarker(
+                [53.14809, 47.766011],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ccc600ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7.6475800154489, "stroke": true, "weight": 1.5}
+            ).addTo(map_39e26c2dc49b32c19edf8b8dc447a5c2);
+        
+    
+        var popup_43f5f0f3a90df5b59df1ed2dec1e148a = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_577f3950e568a947ecba2eebedaf1ca3 = $(`<div id="html_577f3950e568a947ecba2eebedaf1ca3" style="width: 100.0%; height: 100.0%;"><b>Аптека</b><br>ул. Мира, 32, рабочий посёлок Новоспасское<br>Отзывов в анализе: 15<br>Звёзды авторов / прогноз по текстам: 4.07 / 3.40<br>Рейтинг карточки: 4.1<br>Обе модели против автора: 4 при ожидаемых 2.7 (p = 0.290)</div>`)[0];
+                popup_43f5f0f3a90df5b59df1ed2dec1e148a.setContent(html_577f3950e568a947ecba2eebedaf1ca3);
+            
+        
+
+        circle_marker_d175f0c0ca5fc08577e946aa57962a72.bindPopup(popup_43f5f0f3a90df5b59df1ed2dec1e148a)
+        ;
+
+        
+    
+    
+            circle_marker_d175f0c0ca5fc08577e946aa57962a72.bindTooltip(
+                `<div>
+                     Аптека
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6a11ea166f90858b13118779c77116d4 = L.circleMarker(
+                [53.150849, 47.736418],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#c7c400ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.0, "stroke": true, "weight": 1.5}
+            ).addTo(map_39e26c2dc49b32c19edf8b8dc447a5c2);
+        
+    
+        var popup_4fd8c4c24bcfe94e0e263f34e64a32e9 = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_26aa1b94d7dbc17a0f18d7f72c7c6b30 = $(`<div id="html_26aa1b94d7dbc17a0f18d7f72c7c6b30" style="width: 100.0%; height: 100.0%;"><b>Пятёрочка</b><br>площадь Макаренко, 24А, рабочий посёлок Новоспасское<br>Отзывов в анализе: 25<br>Звёзды авторов / прогноз по текстам: 3.96 / 3.44<br>Рейтинг карточки: 4.6<br>Обе модели против автора: 3 при ожидаемых 4.2 (p = 0.784)</div>`)[0];
+                popup_4fd8c4c24bcfe94e0e263f34e64a32e9.setContent(html_26aa1b94d7dbc17a0f18d7f72c7c6b30);
+            
+        
+
+        circle_marker_6a11ea166f90858b13118779c77116d4.bindPopup(popup_4fd8c4c24bcfe94e0e263f34e64a32e9)
+        ;
+
+        
+    
+    
+            circle_marker_6a11ea166f90858b13118779c77116d4.bindTooltip(
+                `<div>
+                     Пятёрочка
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8923a884b486360f4adbaad5ebb64316 = L.circleMarker(
+                [53.151931, 47.755789],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#479800ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.0, "stroke": true, "weight": 1.5}
+            ).addTo(map_39e26c2dc49b32c19edf8b8dc447a5c2);
+        
+    
+        var popup_12363513c9a0bfec6fe78a59b812799c = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_a592e112f39e386d3410227cb6db2a3f = $(`<div id="html_a592e112f39e386d3410227cb6db2a3f" style="width: 100.0%; height: 100.0%;"><b>Пятёрочка</b><br>ул. Терешковой, 20А, рабочий посёлок Новоспасское<br>Отзывов в анализе: 25<br>Звёзды авторов / прогноз по текстам: 4.92 / 4.44<br>Рейтинг карточки: 4.5<br>Обе модели против автора: 1 при ожидаемых 1.1 (p = 0.677)</div>`)[0];
+                popup_12363513c9a0bfec6fe78a59b812799c.setContent(html_a592e112f39e386d3410227cb6db2a3f);
+            
+        
+
+        circle_marker_8923a884b486360f4adbaad5ebb64316.bindPopup(popup_12363513c9a0bfec6fe78a59b812799c)
+        ;
+
+        
+    
+    
+            circle_marker_8923a884b486360f4adbaad5ebb64316.bindTooltip(
+                `<div>
+                     Пятёрочка
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_7477a21f7cdd19f6678fca45ea5c07a1 = L.circleMarker(
+                [53.148121, 47.766263],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#66a300ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.0, "stroke": true, "weight": 1.5}
+            ).addTo(map_39e26c2dc49b32c19edf8b8dc447a5c2);
+        
+    
+        var popup_c097bea15aee85d938ee4ec022adaa18 = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_7e54337a2ab017fe8bb7d2873dab42e9 = $(`<div id="html_7e54337a2ab017fe8bb7d2873dab42e9" style="width: 100.0%; height: 100.0%;"><b>Пятёрочка</b><br>ул. Мира, 32, рабочий посёлок Новоспасское<br>Отзывов в анализе: 25<br>Звёзды авторов / прогноз по текстам: 4.44 / 4.20<br>Рейтинг карточки: 4.6<br>Обе модели против автора: 0 при ожидаемых 2.3 (p = 1.000)</div>`)[0];
+                popup_c097bea15aee85d938ee4ec022adaa18.setContent(html_7e54337a2ab017fe8bb7d2873dab42e9);
+            
+        
+
+        circle_marker_7477a21f7cdd19f6678fca45ea5c07a1.bindPopup(popup_c097bea15aee85d938ee4ec022adaa18)
+        ;
+
+        
+    
+    
+            circle_marker_7477a21f7cdd19f6678fca45ea5c07a1.bindTooltip(
+                `<div>
+                     Пятёрочка
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_87a90761d2125d4a1ca9b538692a31dc = L.circleMarker(
+                [53.149116, 47.741905],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#67a300ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.499090833947008, "stroke": true, "weight": 1.5}
+            ).addTo(map_39e26c2dc49b32c19edf8b8dc447a5c2);
+        
+    
+        var popup_b6ac560b7dd09df2a2bbe8dc241d1939 = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_062b4a7425ecfc911c929bab35529b43 = $(`<div id="html_062b4a7425ecfc911c929bab35529b43" style="width: 100.0%; height: 100.0%;"><b>Средняя школа № 1</b><br>площадь Макаренко, 1, рабочий посёлок Новоспасское<br>Отзывов в анализе: 21<br>Звёзды авторов / прогноз по текстам: 4.43 / 4.19<br>Рейтинг карточки: 4.4<br>Обе модели против автора: 4 при ожидаемых 1.5 (p = 0.060)</div>`)[0];
+                popup_b6ac560b7dd09df2a2bbe8dc241d1939.setContent(html_062b4a7425ecfc911c929bab35529b43);
+            
+        
+
+        circle_marker_87a90761d2125d4a1ca9b538692a31dc.bindPopup(popup_b6ac560b7dd09df2a2bbe8dc241d1939)
+        ;
+
+        
+    
+    
+            circle_marker_87a90761d2125d4a1ca9b538692a31dc.bindTooltip(
+                `<div>
+                     Средняя школа № 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+    var color_map_f595dbc7727da2bdaa5fbfb066624e01 = {};
+
+    
+    color_map_f595dbc7727da2bdaa5fbfb066624e01.color = d3.scale.threshold()
+              .domain([1.0, 1.0080160320641283, 1.0160320641282565, 1.0240480961923848, 1.032064128256513, 1.0400801603206413, 1.0480961923847696, 1.0561122244488979, 1.0641282565130261, 1.0721442885771544, 1.0801603206412826, 1.088176352705411, 1.0961923847695392, 1.1042084168336674, 1.1122244488977957, 1.1202404809619237, 1.128256513026052, 1.1362725450901803, 1.1442885771543085, 1.1523046092184368, 1.160320641282565, 1.1683366733466933, 1.1763527054108216, 1.1843687374749499, 1.1923847695390781, 1.2004008016032064, 1.2084168336673347, 1.216432865731463, 1.2244488977955912, 1.2324649298597194, 1.2404809619238477, 1.248496993987976, 1.2565130260521042, 1.2645290581162325, 1.2725450901803608, 1.280561122244489, 1.2885771543086173, 1.2965931863727456, 1.3046092184368738, 1.3126252505010019, 1.3206412825651301, 1.3286573146292584, 1.3366733466933867, 1.344689378757515, 1.3527054108216432, 1.3607214428857715, 1.3687374749498997, 1.376753507014028, 1.3847695390781563, 1.3927855711422845, 1.4008016032064128, 1.408817635270541, 1.4168336673346693, 1.4248496993987976, 1.4328657314629258, 1.440881763527054, 1.4488977955911824, 1.4569138276553106, 1.464929859719439, 1.4729458917835672, 1.4809619238476954, 1.4889779559118237, 1.496993987975952, 1.5050100200400802, 1.5130260521042085, 1.5210420841683367, 1.529058116232465, 1.5370741482965933, 1.5450901803607215, 1.5531062124248498, 1.561122244488978, 1.5691382765531063, 1.5771543086172346, 1.5851703406813629, 1.5931863727454911, 1.6012024048096194, 1.6092184368737477, 1.6172344689378757, 1.625250501002004, 1.6332665330661322, 1.6412825651302605, 1.6492985971943888, 1.657314629258517, 1.6653306613226453, 1.6733466933867736, 1.6813627254509018, 1.68937875751503, 1.6973947895791583, 1.7054108216432866, 1.7134268537074149, 1.7214428857715431, 1.7294589178356712, 1.7374749498997994, 1.7454909819639277, 1.753507014028056, 1.7615230460921842, 1.7695390781563125, 1.7775551102204408, 1.785571142284569, 1.7935871743486973, 1.8016032064128256, 1.8096192384769538, 1.817635270541082, 1.8256513026052104, 1.8336673346693386, 1.8416833667334669, 1.8496993987975952, 1.8577154308617234, 1.8657314629258517, 1.87374749498998, 1.8817635270541082, 1.8897795591182365, 1.8977955911823647, 1.905811623246493, 1.9138276553106213, 1.9218436873747495, 1.9298597194388778, 1.937875751503006, 1.9458917835671343, 1.9539078156312626, 1.9619238476953909, 1.9699398797595191, 1.9779559118236474, 1.9859719438877756, 1.993987975951904, 2.0020040080160317, 2.0100200400801604, 2.0180360721442883, 2.026052104208417, 2.034068136272545, 2.0420841683366735, 2.0501002004008013, 2.05811623246493, 2.066132264529058, 2.0741482965931866, 2.0821643286573144, 2.090180360721443, 2.098196392785571, 2.1062124248496996, 2.1142284569138274, 2.122244488977956, 2.130260521042084, 2.1382765531062127, 2.1462925851703405, 2.154308617234469, 2.162324649298597, 2.1703406813627257, 2.1783567134268536, 2.1863727454909823, 2.19438877755511, 2.202404809619239, 2.2104208416833666, 2.2184368737474953, 2.226452905811623, 2.2344689378757514, 2.2424849699398797, 2.250501002004008, 2.258517034068136, 2.2665330661322645, 2.2745490981963927, 2.282565130260521, 2.2905811623246493, 2.2985971943887775, 2.306613226452906, 2.314629258517034, 2.3226452905811623, 2.3306613226452906, 2.338677354709419, 2.346693386773547, 2.3547094188376754, 2.3627254509018036, 2.370741482965932, 2.37875751503006, 2.3867735470941884, 2.3947895791583167, 2.402805611222445, 2.4108216432865732, 2.4188376753507015, 2.4268537074148298, 2.434869739478958, 2.4428857715430863, 2.4509018036072145, 2.4589178356713424, 2.466933867735471, 2.474949899799599, 2.4829659318637276, 2.4909819639278554, 2.498997995991984, 2.507014028056112, 2.5150300601202407, 2.5230460921843685, 2.531062124248497, 2.539078156312625, 2.5470941883767537, 2.5551102204408815, 2.5631262525050102, 2.571142284569138, 2.579158316633267, 2.5871743486973946, 2.5951903807615233, 2.603206412825651, 2.61122244488978, 2.6192384769539077, 2.6272545090180364, 2.635270541082164, 2.643286573146293, 2.6513026052104207, 2.6593186372745494, 2.6673346693386772, 2.6753507014028055, 2.6833667334669338, 2.691382765531062, 2.6993987975951903, 2.7074148296593186, 2.715430861723447, 2.723446893787575, 2.7314629258517034, 2.7394789579158316, 2.74749498997996, 2.755511022044088, 2.7635270541082164, 2.7715430861723447, 2.779559118236473, 2.787575150300601, 2.7955911823647295, 2.8036072144288577, 2.811623246492986, 2.8196392785571143, 2.8276553106212425, 2.835671342685371, 2.843687374749499, 2.8517034068136273, 2.8597194388777556, 2.867735470941884, 2.875751503006012, 2.8837675350701404, 2.8917835671342687, 2.8997995991983965, 2.907815631262525, 2.915831663326653, 2.9238476953907817, 2.9318637274549095, 2.9398797595190382, 2.947895791583166, 2.9559118236472948, 2.9639278557114226, 2.9719438877755513, 2.979959919839679, 2.987975951903808, 2.9959919839679356, 3.004008016032064, 3.012024048096192, 3.0200400801603204, 3.0280561122244487, 3.036072144288577, 3.0440881763527052, 3.0521042084168335, 3.0601202404809618, 3.06813627254509, 3.0761523046092183, 3.0841683366733466, 3.092184368737475, 3.100200400801603, 3.1082164328657313, 3.1162324649298596, 3.124248496993988, 3.132264529058116, 3.1402805611222444, 3.1482965931863727, 3.156312625250501, 3.164328657314629, 3.1723446893787575, 3.1803607214428857, 3.188376753507014, 3.1963927855711423, 3.2044088176352705, 3.212424849699399, 3.220440881763527, 3.2284569138276553, 3.2364729458917836, 3.244488977955912, 3.25250501002004, 3.2605210420841684, 3.2685370741482966, 3.276553106212425, 3.284569138276553, 3.2925851703406814, 3.3006012024048097, 3.308617234468938, 3.3166332665330662, 3.3246492985971945, 3.3326653306613228, 3.340681362725451, 3.3486973947895793, 3.3567134268537075, 3.364729458917836, 3.372745490981964, 3.3807615230460923, 3.3887775551102206, 3.396793587174349, 3.404809619238477, 3.4128256513026054, 3.4208416833667337, 3.428857715430862, 3.43687374749499, 3.444889779559118, 3.4529058116232463, 3.4609218436873745, 3.468937875751503, 3.476953907815631, 3.4849699398797593, 3.4929859719438876, 3.501002004008016, 3.509018036072144, 3.5170340681362724, 3.5250501002004007, 3.533066132264529, 3.541082164328657, 3.5490981963927855, 3.5571142284569137, 3.565130260521042, 3.5731462925851702, 3.5811623246492985, 3.5891783567134268, 3.597194388777555, 3.6052104208416833, 3.6132264529058116, 3.62124248496994, 3.629258517034068, 3.6372745490981964, 3.6452905811623246, 3.653306613226453, 3.661322645290581, 3.6693386773547094, 3.6773547094188377, 3.685370741482966, 3.693386773547094, 3.7014028056112225, 3.7094188376753507, 3.717434869739479, 3.7254509018036073, 3.7334669338677355, 3.741482965931864, 3.749498997995992, 3.7575150300601203, 3.7655310621242486, 3.773547094188377, 3.781563126252505, 3.7895791583166334, 3.7975951903807617, 3.80561122244489, 3.813627254509018, 3.8216432865731464, 3.8296593186372747, 3.837675350701403, 3.8456913827655312, 3.8537074148296595, 3.8617234468937878, 3.869739478957916, 3.8777555110220443, 3.8857715430861726, 3.8937875751503004, 3.9018036072144286, 3.909819639278557, 3.917835671342685, 3.9258517034068134, 3.9338677354709417, 3.94188376753507, 3.9498997995991982, 3.9579158316633265, 3.9659318637274548, 3.973947895791583, 3.9819639278557113, 3.9899799599198396, 3.997995991983968, 4.006012024048096, 4.014028056112224, 4.022044088176353, 4.030060120240481, 4.038076152304609, 4.046092184368737, 4.054108216432866, 4.062124248496994, 4.070140280561122, 4.07815631262525, 4.086172344689379, 4.094188376753507, 4.102204408817635, 4.110220440881763, 4.118236472945892, 4.1262525050100205, 4.134268537074148, 4.142284569138276, 4.150300601202405, 4.158316633266534, 4.166332665330661, 4.174348697394789, 4.182364729458918, 4.190380761523047, 4.198396793587174, 4.206412825651302, 4.214428857715431, 4.22244488977956, 4.2304609218436875, 4.238476953907815, 4.246492985971944, 4.254509018036073, 4.2625250501002006, 4.270541082164328, 4.278557114228457, 4.286573146292586, 4.294589178356714, 4.302605210420841, 4.31062124248497, 4.318637274549099, 4.326653306613227, 4.3346693386773545, 4.342685370741483, 4.350701402805611, 4.358717434869739, 4.3667334669338675, 4.374749498997996, 4.382765531062124, 4.390781563126252, 4.398797595190381, 4.406813627254509, 4.414829659318637, 4.422845691382765, 4.430861723446894, 4.438877755511022, 4.44689378757515, 4.454909819639278, 4.462925851703407, 4.470941883767535, 4.478957915831663, 4.486973947895791, 4.49498997995992, 4.5030060120240485, 4.511022044088176, 4.519038076152304, 4.527054108216433, 4.5350701402805615, 4.543086172344689, 4.551102204408817, 4.559118236472946, 4.567134268537075, 4.575150300601202, 4.58316633266533, 4.591182364729459, 4.599198396793588, 4.6072144288577155, 4.615230460921843, 4.623246492985972, 4.631262525050101, 4.6392785571142285, 4.647294589178356, 4.655310621242485, 4.663326653306614, 4.671342685370742, 4.679358717434869, 4.687374749498998, 4.695390781563127, 4.703406813627255, 4.7114228456913825, 4.719438877755511, 4.72745490981964, 4.735470941883768, 4.7434869739478955, 4.751503006012024, 4.759519038076153, 4.767535070140281, 4.775551102204409, 4.783567134268537, 4.791583166332665, 4.799599198396793, 4.807615230460922, 4.81563126252505, 4.823647294589178, 4.831663326653306, 4.839679358717435, 4.847695390781563, 4.855711422845691, 4.863727454909819, 4.871743486973948, 4.8797595190380765, 4.887775551102204, 4.895791583166332, 4.903807615230461, 4.9118236472945895, 4.919839679358717, 4.927855711422845, 4.935871743486974, 4.943887775551103, 4.95190380761523, 4.959919839679358, 4.967935871743487, 4.975951903807616, 4.9839679358717435, 4.991983967935871, 5.0])
+              .range(['#ff0000ff', '#ff0000ff', '#ff0100ff', '#ff0200ff', '#ff0300ff', '#ff0400ff', '#ff0500ff', '#ff0600ff', '#ff0600ff', '#ff0700ff', '#ff0800ff', '#ff0900ff', '#ff0a00ff', '#ff0b00ff', '#ff0c00ff', '#ff0c00ff', '#ff0d00ff', '#ff0e00ff', '#ff0f00ff', '#ff1000ff', '#ff1100ff', '#ff1200ff', '#ff1300ff', '#ff1300ff', '#ff1400ff', '#ff1500ff', '#ff1600ff', '#ff1700ff', '#ff1800ff', '#ff1900ff', '#ff1900ff', '#ff1a00ff', '#ff1b00ff', '#ff1c00ff', '#ff1d00ff', '#ff1e00ff', '#ff1f00ff', '#ff2000ff', '#ff2000ff', '#ff2100ff', '#ff2200ff', '#ff2300ff', '#ff2400ff', '#ff2500ff', '#ff2600ff', '#ff2600ff', '#ff2700ff', '#ff2800ff', '#ff2900ff', '#ff2a00ff', '#ff2b00ff', '#ff2c00ff', '#ff2c00ff', '#ff2d00ff', '#ff2e00ff', '#ff2f00ff', '#ff3000ff', '#ff3100ff', '#ff3200ff', '#ff3300ff', '#ff3300ff', '#ff3400ff', '#ff3500ff', '#ff3600ff', '#ff3700ff', '#ff3800ff', '#ff3900ff', '#ff3900ff', '#ff3a00ff', '#ff3b00ff', '#ff3c00ff', '#ff3d00ff', '#ff3e00ff', '#ff3f00ff', '#ff4000ff', '#ff4000ff', '#ff4100ff', '#ff4200ff', '#ff4300ff', '#ff4400ff', '#ff4500ff', '#ff4600ff', '#ff4600ff', '#ff4700ff', '#ff4800ff', '#ff4900ff', '#ff4a00ff', '#ff4b00ff', '#ff4c00ff', '#ff4c00ff', '#ff4d00ff', '#ff4e00ff', '#ff4f00ff', '#ff5000ff', '#ff5100ff', '#ff5200ff', '#ff5300ff', '#ff5300ff', '#ff5400ff', '#ff5500ff', '#ff5600ff', '#ff5700ff', '#ff5800ff', '#ff5900ff', '#ff5900ff', '#ff5a00ff', '#ff5b00ff', '#ff5c00ff', '#ff5d00ff', '#ff5e00ff', '#ff5f00ff', '#ff6000ff', '#ff6000ff', '#ff6100ff', '#ff6200ff', '#ff6300ff', '#ff6400ff', '#ff6500ff', '#ff6600ff', '#ff6600ff', '#ff6700ff', '#ff6800ff', '#ff6900ff', '#ff6a00ff', '#ff6b00ff', '#ff6c00ff', '#ff6d00ff', '#ff6d00ff', '#ff6e00ff', '#ff6f00ff', '#ff7000ff', '#ff7100ff', '#ff7200ff', '#ff7300ff', '#ff7300ff', '#ff7400ff', '#ff7500ff', '#ff7600ff', '#ff7700ff', '#ff7800ff', '#ff7900ff', '#ff7900ff', '#ff7a00ff', '#ff7b00ff', '#ff7c00ff', '#ff7d00ff', '#ff7e00ff', '#ff7f00ff', '#ff8000ff', '#ff8000ff', '#ff8100ff', '#ff8200ff', '#ff8300ff', '#ff8400ff', '#ff8500ff', '#ff8600ff', '#ff8600ff', '#ff8700ff', '#ff8800ff', '#ff8900ff', '#ff8a00ff', '#ff8b00ff', '#ff8c00ff', '#ff8d00ff', '#ff8d00ff', '#ff8e00ff', '#ff8f00ff', '#ff9000ff', '#ff9100ff', '#ff9200ff', '#ff9300ff', '#ff9300ff', '#ff9400ff', '#ff9500ff', '#ff9600ff', '#ff9700ff', '#ff9800ff', '#ff9900ff', '#ff9900ff', '#ff9a00ff', '#ff9b00ff', '#ff9c00ff', '#ff9d00ff', '#ff9e00ff', '#ff9f00ff', '#ffa000ff', '#ffa000ff', '#ffa100ff', '#ffa200ff', '#ffa300ff', '#ffa400ff', '#ffa500ff', '#ffa600ff', '#ffa600ff', '#ffa700ff', '#ffa800ff', '#ffa900ff', '#ffaa00ff', '#ffab00ff', '#ffac00ff', '#ffad00ff', '#ffad00ff', '#ffae00ff', '#ffaf00ff', '#ffb000ff', '#ffb100ff', '#ffb200ff', '#ffb300ff', '#ffb300ff', '#ffb400ff', '#ffb500ff', '#ffb600ff', '#ffb700ff', '#ffb800ff', '#ffb900ff', '#ffb900ff', '#ffba00ff', '#ffbb00ff', '#ffbc00ff', '#ffbd00ff', '#ffbe00ff', '#ffbf00ff', '#ffc000ff', '#ffc000ff', '#ffc100ff', '#ffc200ff', '#ffc300ff', '#ffc400ff', '#ffc500ff', '#ffc600ff', '#ffc600ff', '#ffc700ff', '#ffc800ff', '#ffc900ff', '#ffca00ff', '#ffcb00ff', '#ffcc00ff', '#ffcd00ff', '#ffcd00ff', '#ffce00ff', '#ffcf00ff', '#ffd000ff', '#ffd100ff', '#ffd200ff', '#ffd300ff', '#ffd300ff', '#ffd400ff', '#ffd500ff', '#ffd600ff', '#ffd700ff', '#ffd700ff', '#fed700ff', '#fdd600ff', '#fcd600ff', '#fbd600ff', '#fad500ff', '#f9d500ff', '#f8d500ff', '#f7d400ff', '#f6d400ff', '#f5d400ff', '#f4d300ff', '#f3d300ff', '#f2d300ff', '#f1d200ff', '#f0d200ff', '#efd200ff', '#eed100ff', '#edd100ff', '#ebd100ff', '#ead000ff', '#e9d000ff', '#e8cf00ff', '#e7cf00ff', '#e6cf00ff', '#e5ce00ff', '#e4ce00ff', '#e3ce00ff', '#e2cd00ff', '#e1cd00ff', '#e0cd00ff', '#dfcc00ff', '#decc00ff', '#ddcc00ff', '#dccb00ff', '#dbcb00ff', '#dacb00ff', '#d9ca00ff', '#d8ca00ff', '#d7ca00ff', '#d6c900ff', '#d5c900ff', '#d4c800ff', '#d3c800ff', '#d2c800ff', '#d1c700ff', '#d0c700ff', '#cfc700ff', '#cec600ff', '#cdc600ff', '#ccc600ff', '#cbc500ff', '#cac500ff', '#c9c500ff', '#c8c400ff', '#c7c400ff', '#c6c400ff', '#c5c300ff', '#c3c300ff', '#c2c300ff', '#c1c200ff', '#c0c200ff', '#bfc100ff', '#bec100ff', '#bdc100ff', '#bcc000ff', '#bbc000ff', '#bac000ff', '#b9bf00ff', '#b8bf00ff', '#b7bf00ff', '#b6be00ff', '#b5be00ff', '#b4be00ff', '#b3bd00ff', '#b2bd00ff', '#b1bd00ff', '#b0bc00ff', '#afbc00ff', '#aebc00ff', '#adbb00ff', '#acbb00ff', '#abba00ff', '#aaba00ff', '#a9ba00ff', '#a8b900ff', '#a7b900ff', '#a6b900ff', '#a5b800ff', '#a4b800ff', '#a3b800ff', '#a2b700ff', '#a1b700ff', '#a0b700ff', '#9fb600ff', '#9eb600ff', '#9cb600ff', '#9bb500ff', '#9ab500ff', '#99b500ff', '#98b400ff', '#97b400ff', '#96b300ff', '#95b300ff', '#94b300ff', '#93b200ff', '#92b200ff', '#91b200ff', '#90b100ff', '#8fb100ff', '#8eb100ff', '#8db000ff', '#8cb000ff', '#8bb000ff', '#8aaf00ff', '#89af00ff', '#88af00ff', '#87ae00ff', '#86ae00ff', '#85ae00ff', '#84ad00ff', '#83ad00ff', '#82ac00ff', '#81ac00ff', '#80ac00ff', '#7fab00ff', '#7eab00ff', '#7dab00ff', '#7caa00ff', '#7baa00ff', '#7aaa00ff', '#79a900ff', '#78a900ff', '#77a900ff', '#75a800ff', '#74a800ff', '#73a800ff', '#72a700ff', '#71a700ff', '#70a700ff', '#6fa600ff', '#6ea600ff', '#6da500ff', '#6ca500ff', '#6ba500ff', '#6aa400ff', '#69a400ff', '#68a400ff', '#67a300ff', '#66a300ff', '#65a300ff', '#64a200ff', '#63a200ff', '#62a200ff', '#61a100ff', '#60a100ff', '#5fa100ff', '#5ea000ff', '#5da000ff', '#5ca000ff', '#5b9f00ff', '#5a9f00ff', '#599e00ff', '#589e00ff', '#579e00ff', '#569d00ff', '#559d00ff', '#549d00ff', '#539c00ff', '#529c00ff', '#519c00ff', '#509b00ff', '#4f9b00ff', '#4d9b00ff', '#4c9a00ff', '#4b9a00ff', '#4a9a00ff', '#499900ff', '#489900ff', '#479900ff', '#469800ff', '#459800ff', '#449700ff', '#439700ff', '#429700ff', '#419600ff', '#409600ff', '#3f9600ff', '#3e9500ff', '#3d9500ff', '#3c9500ff', '#3b9400ff', '#3a9400ff', '#399400ff', '#389300ff', '#379300ff', '#369300ff', '#359200ff', '#349200ff', '#339200ff', '#329100ff', '#319100ff', '#309000ff', '#2f9000ff', '#2e9000ff', '#2d8f00ff', '#2c8f00ff', '#2b8f00ff', '#2a8e00ff', '#298e00ff', '#288e00ff', '#268d00ff', '#258d00ff', '#248d00ff', '#238c00ff', '#228c00ff', '#218c00ff', '#208b00ff', '#1f8b00ff', '#1e8b00ff', '#1d8a00ff', '#1c8a00ff', '#1b8900ff', '#1a8900ff', '#198900ff', '#188800ff', '#178800ff', '#168800ff', '#158700ff', '#148700ff', '#138700ff', '#128600ff', '#118600ff', '#108600ff', '#0f8500ff', '#0e8500ff', '#0d8500ff', '#0c8400ff', '#0b8400ff', '#0a8400ff', '#098300ff', '#088300ff', '#078200ff', '#068200ff', '#058200ff', '#048100ff', '#038100ff', '#028100ff', '#018000ff', '#008000ff']);
+    
+
+    color_map_f595dbc7727da2bdaa5fbfb066624e01.x = d3.scale.linear()
+              .domain([1.0, 5.0])
+              .range([0, 450 - 50]);
+
+    color_map_f595dbc7727da2bdaa5fbfb066624e01.legend = L.control({position: 'topright'});
+    color_map_f595dbc7727da2bdaa5fbfb066624e01.legend.onAdd = function (map) {var div = L.DomUtil.create('div', 'legend'); return div};
+    color_map_f595dbc7727da2bdaa5fbfb066624e01.legend.addTo(map_39e26c2dc49b32c19edf8b8dc447a5c2);
+
+    color_map_f595dbc7727da2bdaa5fbfb066624e01.xAxis = d3.svg.axis()
+        .scale(color_map_f595dbc7727da2bdaa5fbfb066624e01.x)
+        .orient("top")
+        .tickSize(1)
+        .tickValues([1.0, 3.0, 5.0]);
+
+    color_map_f595dbc7727da2bdaa5fbfb066624e01.svg = d3.select(".legend.leaflet-control").append("svg")
+        .attr("id", 'legend')
+        .attr("width", 450)
+        .attr("height", 40);
+
+    color_map_f595dbc7727da2bdaa5fbfb066624e01.g = color_map_f595dbc7727da2bdaa5fbfb066624e01.svg.append("g")
+        .attr("class", "key")
+        .attr("fill", "black")
+        .attr("transform", "translate(25,16)");
+
+    color_map_f595dbc7727da2bdaa5fbfb066624e01.g.selectAll("rect")
+        .data(color_map_f595dbc7727da2bdaa5fbfb066624e01.color.range().map(function(d, i) {
+          return {
+            x0: i ? color_map_f595dbc7727da2bdaa5fbfb066624e01.x(color_map_f595dbc7727da2bdaa5fbfb066624e01.color.domain()[i - 1]) : color_map_f595dbc7727da2bdaa5fbfb066624e01.x.range()[0],
+            x1: i < color_map_f595dbc7727da2bdaa5fbfb066624e01.color.domain().length ? color_map_f595dbc7727da2bdaa5fbfb066624e01.x(color_map_f595dbc7727da2bdaa5fbfb066624e01.color.domain()[i]) : color_map_f595dbc7727da2bdaa5fbfb066624e01.x.range()[1],
+            z: d
+          };
+        }))
+      .enter().append("rect")
+        .attr("height", 40 - 30)
+        .attr("x", function(d) { return d.x0; })
+        .attr("width", function(d) { return d.x1 - d.x0; })
+        .style("fill", function(d) { return d.z; });
+
+    color_map_f595dbc7727da2bdaa5fbfb066624e01.g.call(color_map_f595dbc7727da2bdaa5fbfb066624e01.xAxis).append("text")
+        .attr("class", "caption")
+        .attr("y", 21)
+        .attr("fill", "black")
+        .text("\u0421\u0440\u0435\u0434\u043d\u0438\u0439 \u043f\u0440\u043e\u0433\u043d\u043e\u0437 \u0437\u0432\u0451\u0437\u0434 \u043f\u043e \u0442\u0435\u043a\u0441\u0442\u0430\u043c");
+</script>
+</html>
