@@ -1,0 +1,108 @@
+{
+    "titleEn": "Program",
+    "titleRu": "Программа",
+    "connections": [
+        {
+            "index": 0,
+            "nameEn": "input module",
+            "nameRu": "модуль ввода",
+            "ip": "192.168.2.1",
+            "port": 502,
+            "slaveId": 1,
+            "registerType": "holding",
+            "values": [
+                {
+                    "index": 0,
+
+                    "nameEn": "container 1 door is off",
+                    "nameRu": "ящик 1 дверь закрыта",
+
+                    "type": "bool",
+                    "register": 1,
+                    "bit": 0
+                },
+                {
+                    "index": 1,
+
+                    "nameEn": "container 1 door is on",
+                    "nameRu": "ящик 1 дверь открыта",
+
+                    "type": "bool",
+                    "register": 1,
+                    "bit": 1
+                },
+                {
+                    "index": 2,
+
+                    "nameEn": "container 1 table is off",
+                    "nameRu": "ящик 1 стол закрыт",
+
+                    "type": "bool",
+                    "register": 1,
+                    "bit": 2
+                },
+                {
+                    "index": 3,
+
+                    "nameEn": "container 1 table is on",
+                    "nameRu": "ящик 1 стол открыт",
+
+                    "type": "bool",
+                    "register": 1,
+                    "bit": 3
+                }
+            ]
+        },
+        {
+            "index": 1,
+            "nameEn": "output module",
+            "nameRu": "модуль вывода",
+            "ip": "192.168.2.2",
+            "port": 502,
+            "slaveId": 1,
+            "registerType": "holding",
+            "values": [
+                {
+                    "index": 0,
+
+                    "nameEn": "container 1 door set on",
+                    "nameRu": "ящик 1 дверь открыть",
+
+                    "type": "outputBool",
+                    "register": 1,
+                    "bit": 0
+                },
+                {
+                    "index": 1,
+
+                    "nameEn": "container 1 door set off",
+                    "nameRu": "ящик 1 дверь закрыть",
+
+                    "type": "outputBool",
+                    "register": 1,
+                    "bit": 1
+                },
+                {
+                    "index": 2,
+
+                    "nameEn": "container 2 door set on",
+                    "nameRu": "ящик 2 дверь открыть",
+
+                    "type": "outputBool",
+                    "register": 1,
+                    "bit": 2
+                },
+                {
+                    "index": 3,
+
+                    "nameEn": "container 2 door set off",
+                    "nameRu": "ящик 2 дверь закрыть",
+
+                    "type": "outputBool",
+                    "register": 1,
+                    "bit": 3
+                }
+            ]
+        }
+    ]
+}
